@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Hasil Rekomendasi Makeup</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      body {
+        font-family: "Inter", sans-serif;
+        background: #faf5f7;
+        min-height: 100vh;
+        color: #4a4a4a;
+        padding: 3rem 1.5rem;
+        display: flex;
+        justify-content: center;
+      }
+      .container {
+        max-width: 900px;
+        background: white;
+        border-radius: 2rem;
+        padding: 3rem 2rem;
+        box-shadow: 0 12px 36px rgba(219, 39, 119, 0.25);
+      }
+      h2 {
+        color: #db2777;
+        font-weight: 900;
+        font-size: 2.75rem;
+        margin-bottom: 1rem;
+        text-align: center;
+      }
+      .undertone {
+        font-weight: 700;
+        color: #6b21a8;
+        margin-bottom: 2rem;
+        text-align: center;
+        font-size: 1.25rem;
+      }
+      .no-data {
+        text-align: center;
+        color: #a855f7;
+        font-style: italic;
+        margin-bottom: 2rem;
+      }
+      .cards {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 2rem;
+        margin-bottom: 3rem;
+      }
+      .card {
+        background: #fce7f3;
+        border-radius: 1.5rem;
+        padding: 1.5rem;
+        text-align: center;
+        box-shadow: 0 4px 18px rgba(219, 39, 119, 0.15);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        cursor: default;
+      }
+      .card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 12px 36px rgba(219, 39, 119, 0.3);
+      }
+      .card img {
+        width: 100%;
+        height: 180px;
+        object-fit: cover;
+        border-radius: 1rem;
+        margin-bottom: 1rem;
+        box-shadow: 0 6px 20px rgba(219, 39, 119, 0.2);
+      }
+      .card h3 {
+        font-weight: 700;
+        font-size: 1.25rem;
+        color: #6b21a8;
+        margin-bottom: 0.5rem;
+      }
+      .card p {
+        font-size: 1rem;
+        color: #4a4a4a;
+        margin-bottom: 0.25rem;
+      }
+      .download-btn,
+      .back-btn {
+        display: block;
+        width: fit-content;
+        margin: 0 auto 1rem auto;
+        padding: 0.75rem 2rem;
+        background-color: #db2777;
+        color: white;
+        font-weight: 700;
+        font-size: 1.25rem;
+        border-radius: 1.5rem;
+        box-shadow: 0 8px 24px rgba(219, 39, 119, 0.5);
+        text-decoration: none;
+        text-align: center;
+        transition: background-color 0.3s ease, transform 0.3s ease;
+      }
+      .download-btn:hover,
+      .back-btn:hover {
+        background-color: #be185d;
+        transform: translateY(-3px);
+      }
+      .knowledge-section {
+        background: #fdf2f8;
+        padding: 1.5rem 2rem;
+        border-radius: 1.5rem;
+        box-shadow: 0 4px 18px rgba(219, 39, 119, 0.15);
+      }
+      .knowledge-item {
+        margin-bottom: 1.5rem;
+      }
+      .knowledge-item p:first-child {
+        font-weight: 700;
+        color: #7c3aed;
+        margin-bottom: 0.25rem;
+      }
+      .knowledge-item p:last-child {
+        white-space: pre-line;
+        color: #5a4a72;
+      }
+      .error-message {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 2rem;
+      }
+      .btn-back {
+        background-color: #e11d48;
+        color: white;
+        font-weight: bold;
+        transition: all 0.3s ease;
+        padding: 10px 20px;
+      }
+      .btn-back:hover {
+        background-color: #be185d;
+        box-shadow: 0 8px 24px rgba(190, 24, 93, 0.6);
+        transform: translateY(-4px);
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      {% if errorOccur %}
+      <div class="error-message">
+        <p class="font-bold text-2xl text-center">
+          ❌ Tidak bisa mendeteksi pergelangan tangan, tolong perbaiki kualitas
+          gambar.
+        </p>
+        <div class="space-y-8 max-w-4xl w-full">
+          <details
+            class="p-8 border border-pink-300 rounded-3xl cursor-pointer hover:bg-pink-50 transition"
+          >
+            <summary
+              class="text-2xl font-semibold text-pink-700 cursor-pointer"
+            >
+              Contoh gambar yang baik
+            </summary>
+              <div class="flex gap-3 flex-wrap mt-4 justify-center item-center p-6">
+                <img src="static/images/gambar2.jpg" class="w-48"/>
+                <img src="static/images/gambar5.jpg" class="w-48"/>
+              </div>
+          </details>
+        </div>
+        <a class="back-btn" href="/">Kembali</a>
+      </div>
+      {% else %}
+
+      <h2>Hasil Rekomendasi untuk Skin Tone: {{ result.skin_tone }}</h2>
+
+      {% if result.undertone %}
+      <p class="undertone">Undertone yang cocok: {{ result.undertone }}</p>
+      {% else %}
+      <p class="no-data">Tidak ada data pengetahuan untuk skin tone ini.</p>
+      {% endif %} {% if result.recommendations %}
+      <div class="cards">
+        {% for recommendation in result.recommendations %}
+        <div class="card">
+          <img
+            src="/static/uploads/products/{{ recommendation.image }}"
+            alt="{{ recommendation.name }}"
+            loading="lazy"
+          />
+          <h3>{{ recommendation.category }}</h3>
+          <p>{{ recommendation.name }}</p>
+          <p><em>Untuk tone: {{ recommendation.skin_tone + "/" + recommendation.undertone }}</em></p>
+        </div>
+        {% endfor %}
+      </div>
+      {% else %}
+      <p class="no-data">Tidak ada rekomendasi produk untuk kombinasi ini.</p>
+      {% endif %}
+
+      <a
+        href="/download"
+        class="download-btn"
+        role="button"
+        aria-label="Download hasil PDF"
+        >📄 Download Hasil PDF</a
+      >
+
+      <a href="/" class="back-btn" role="button">Kembali</a>
+
+      {% if knowledge %}
+      <section class="knowledge-section">
+        <h3 class="text-center font-bold text-pink-700 mb-6">
+          💡 Pengetahuan Makeup Berdasarkan Skin Tone Ini
+        </h3>
+        {% for info in knowledge %}
+        <div class="knowledge-item">
+          <p>Undertone: {{ info.undertone }}</p>
+          <p>{{ info.description }}</p>
+        </div>
+        {% endfor %}
+      </section>
+      {% endif %} {% endif %}
+    </div>
+  </body>
+</html>

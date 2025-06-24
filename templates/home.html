@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>FlawlessHue - Makeup Recommender</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #fbc7c7 0%, #f9a8d4 100%);
+      min-height: 100vh;
+      color: #4a4a4a;
+    }
+    .glass-card {
+      background: rgba(255, 255, 255, 0.25);
+      backdrop-filter: blur(12px);
+      border-radius: 2rem;
+      box-shadow: 0 8px 32px 0 rgba(255, 255, 255, 0.18);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+    .btn-pink {
+      background-color: #e11d48;
+      color: white;
+      font-weight: bold;
+      transition: all 0.3s ease;
+    }
+    .btn-pink:hover {
+      background-color: #be185d;
+      box-shadow: 0 8px 24px rgba(190, 24, 93, 0.6);
+      transform: translateY(-4px);
+    }
+    .card-hover {
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .card-hover:hover {
+      transform: scale(1.03);
+      box-shadow: 0 20px 40px rgba(219, 39, 119, 0.4);
+    }
+    .image-glow:hover {
+      filter: brightness(1.1) saturate(1.2);
+      transform: scale(1.05);
+    }
+    #loadingSpinner {
+      display: none;
+      border: 4px solid #f3f3f3;
+      border-top: 4px solid #db2777;
+      border-radius: 50%;
+      width: 36px;
+      height: 36px;
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    .fade-in {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    }
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
+</head>
+
+<body class="flex flex-col min-h-screen">
+
+  <!-- Navbar -->
+  <nav class="bg-white/50 backdrop-blur-md shadow-md py-6 px-10 flex justify-between items-center sticky top-0 z-50">
+    <h1 class="text-4xl font-extrabold text-pink-600 flex items-center gap-4">
+      <span class="text-6xl animate-bounce">💄</span> FlawlessHue
+    </h1>
+    <div class="flex gap-8 text-lg font-semibold text-pink-700">
+      <a href="/about" class="hover:underline hover:text-pink-900 transition">Tentang</a>
+      <a href="/admin/login" class="hover:underline hover:text-pink-900 transition">Admin</a>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="flex-grow max-w-7xl mx-auto px-6 py-16 space-y-24">
+
+    <!-- Section: Pengetahuan Makeup -->
+    <section class="glass-card p-12 grid gap-12 md:grid-cols-2 card-hover fade-in">
+      <article tabindex="0" role="button" class="bg-white rounded-3xl shadow-lg p-8 cursor-pointer hover:shadow-pink-600 hover:scale-105 transition image-glow"
+        onclick="openModal('modal-skin-tone')">
+        <img src="/static/images/skintone.jpg" alt="Skin Tone" class="mx-auto w-40 mb-6 rounded-2xl shadow" />
+        <h3 class="text-2xl font-bold text-pink-700 mb-2">Apa itu Skin Tone?</h3>
+        <p class="text-gray-600">Skin tone adalah warna permukaan kulit, umumnya dikategorikan sebagai Light (terang), Medium (sedang), dan Dark (gelap). Memilih makeup yang sesuai dengan skin tone dapat memberikan tampilan yang lebih natural dan menyatu dengan kulit wajah. Warna foundation, bedak, dan concealer sebaiknya disesuaikan agar tidak tampak terlalu pucat atau terlalu gelap.</p>
+      </article>
+      <article tabindex="0" role="button" class="bg-white rounded-3xl shadow-lg p-8 cursor-pointer hover:shadow-pink-600 hover:scale-105 transition image-glow"
+        onclick="openModal('modal-undertone')">
+        <img src="/static/images/undertone.jpg" alt="Undertone" class="mx-auto w-40 mb-6 rounded-2xl shadow" />
+        <h3 class="text-2xl font-bold text-pink-700 mb-2">Apa itu Undertone?</h3>
+        <p class="text-gray-600">Undertone adalah warna dasar alami kulit yang tidak berubah meskipun kulit menjadi lebih cerah atau gelap. Ada tiga jenis undertone utama:</p>
+        <ul class="list-disc list-inside mt-2 text-sm text-gray-700">
+          <li><strong>Cool</strong>: memiliki rona kebiruan, merah muda, atau keunguan. Cocok dengan warna makeup seperti pink, berry, dan perak.</li>
+          <li><strong>Warm</strong>: cenderung ke kuning keemasan atau peachy. Cocok dengan warna makeup seperti coral, bronze, dan emas.</li>
+          <li><strong>Neutral</strong>: perpaduan warm dan cool, fleksibel terhadap berbagai pilihan warna makeup.</li>
+        </ul>
+      </article>
+    </section>
+
+    <!-- Section: Kenapa Warna Kulit Penting -->
+    <section class="glass-card p-12 text-center fade-in card-hover max-w-4xl mx-auto bg-white bg-opacity-70">
+      <h2 class="text-3xl font-extrabold text-pink-700 mb-4">Kenapa Warna Kulit Penting?</h2>
+      <p class="text-gray-700 text-lg leading-relaxed max-w-3xl mx-auto">Mengetahui warna kulitmu (baik skin tone maupun undertone) sangat penting untuk menentukan makeup yang paling cocok. Dengan memilih warna yang tepat, kamu bisa mendapatkan tampilan wajah yang lebih natural, segar, dan bercahaya. Ini juga membantu menghindari tampilan yang terlalu pucat, kusam, atau berlebihan.</p>
+      <div class="mt-6 grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="bg-pink-100 rounded-xl p-4 shadow hover:shadow-lg transition-all">
+          <h3 class="font-semibold text-pink-800">✨ Lebih Natural</h3>
+          <p class="text-sm text-gray-600">Warna makeup yang sesuai dengan skin tone akan menyatu lebih baik dengan kulitmu.</p>
+        </div>
+        <div class="bg-pink-100 rounded-xl p-4 shadow hover:shadow-lg transition-all">
+          <h3 class="font-semibold text-pink-800">🎯 Tepat Sasaran</h3>
+          <p class="text-sm text-gray-600">Menghindari kesan terlalu terang atau gelap yang bisa membuat wajah terlihat tidak proporsional.</p>
+        </div>
+        <div class="bg-pink-100 rounded-xl p-4 shadow hover:shadow-lg transition-all">
+          <h3 class="font-semibold text-pink-800">📸 Siap Difoto</h3>
+          <p class="text-sm text-gray-600">Makeup yang sesuai membuatmu tampak flawless di kamera tanpa banyak filter.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section: Video -->
+    <section class="glass-card p-10 text-center card-hover fade-in max-w-3xl mx-auto">
+      <h2 class="text-3xl font-bold text-pink-700 mb-6">Skintone vs Undertone</h2>
+      <div class="aspect-w-16 aspect-h-9">
+        <iframe class="w-full h-full rounded-2xl shadow" src="https://www.youtube.com/embed/hw_ie8PUXGI?si=tTsqX3QQqJb74HM0" title="Skintone vs Undertone" frameborder="0" allowfullscreen></iframe>
+      </div>
+    </section>
+    <!-- Upload Foto Tangan (Full width di bawah) -->
+    <section class="md:col-span-3 mt-20 bg-white rounded-3xl shadow-2xl p-16 text-center card-hover fade-in">
+      <h2 class="text-6xl font-extrabold text-pink-700 mb-10 drop-shadow-lg">Upload Foto Tanganmu</h2>
+      <p class="text-xl max-w-2xl mx-auto mb-14 text-gray-700 leading-relaxed tracking-wide">
+        Upload foto tangan agar sistem dapat mendeteksi skin tone dan undertone secara akurat dan memberikan rekomendasi makeup yang tepat untukmu.
+      </p>
+      <form id="uploadForm" action="/" method="POST" enctype="multipart/form-data" class="flex flex-col gap-10 items-center justify-center">
+        <input type="file" name="image" accept="image/*" required
+          class="border-4 border-pink-300 rounded-3xl p-8 cursor-pointer hover:border-pink-600 shadow-xl text-xl font-semibold w-full max-w-lg" />
+        <button type="submit"
+          class="btn-pink mt-6 w-full max-w-lg py-5 rounded-3xl font-extrabold text-4xl text-white shadow-lg">
+          🔍 Mulai Deteksi
+        </button>
+        <div id="loadingSpinner" aria-label="Loading"></div>
+      </form>
+    </section>
+
+    <!-- FAQ Section (Full width) -->
+    <section class="md:col-span-3 mt-24 bg-white rounded-3xl shadow-2xl p-12 max-w-4xl mx-auto fade-in">
+      <h2 class="text-4xl font-bold text-pink-700 mb-12 text-center drop-shadow-md">FAQ - Pertanyaan Umum</h2>
+      <div class="space-y-8 max-w-3xl mx-auto">
+        <details class="p-8 border border-pink-300 rounded-3xl cursor-pointer hover:bg-pink-50 transition">
+          <summary class="text-2xl font-semibold text-pink-700 cursor-pointer">Apa itu Skin Tone dan kenapa penting?</summary>
+          <p class="mt-4 text-gray-700 leading-relaxed text-lg">
+            Skin Tone adalah warna permukaan kulit yang membantu menentukan warna makeup yang cocok agar terlihat natural.
+          </p>
+        </details>
+        <details class="p-8 border border-pink-300 rounded-3xl cursor-pointer hover:bg-pink-50 transition">
+          <summary class="text-2xl font-semibold text-pink-700 cursor-pointer">Bagaimana cara sistem ini mendeteksi warna kulit saya?</summary>
+          <p class="mt-4 text-gray-700 leading-relaxed text-lg">
+            Kamu tinggal upload foto tangan, sistem menggunakan analisis warna untuk menentukan skin tone dan undertone secara otomatis.
+          </p>
+        </details>
+        <details class="p-8 border border-pink-300 rounded-3xl cursor-pointer hover:bg-pink-50 transition">
+          <summary class="text-2xl font-semibold text-pink-700 cursor-pointer">Apakah data saya disimpan?</summary>
+          <p class="mt-4 text-gray-700 leading-relaxed text-lg">
+            Data foto hanya digunakan untuk analisis saat itu dan tidak disimpan permanen oleh sistem kami.
+          </p>
+        </details>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-pink-700 text-white py-6 text-center text-sm mt-20">
+    © 2025 FlawlessHue - Dibuat dengan 💖 oleh Monika Dian Vidya Putri
+  </footer>
+
+  <script>
+    function openModal(id) {
+      document.getElementById(id)?.classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeModal(id) {
+      document.getElementById(id)?.classList.add('hidden');
+      document.body.style.overflow = 'auto';
+    }
+    document.getElementById('uploadForm')?.addEventListener('submit', () => {
+      document.getElementById('loadingSpinner').style.display = 'block';
+    });
+    const faders = document.querySelectorAll('.fade-in');
+    const appearOnScroll = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          appearOnScroll.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0, rootMargin: "0px 0px -100px 0px" });
+    faders.forEach(fader => appearOnScroll.observe(fader));
+  </script>
+
+</body>
+</html>

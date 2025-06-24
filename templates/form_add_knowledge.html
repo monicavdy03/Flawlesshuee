@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <title>{{ 'Edit' if item else 'Tambah' }} Pengetahuan - FlawlessHue</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, #fbc7c7 0%, #f9a8d4 100%);
+      min-height: 100vh;
+      color: #4a4a4a;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 2rem;
+    }
+    .glass-card {
+      background: rgba(255,255,255,0.25);
+      backdrop-filter: blur(12px);
+      border-radius: 2rem;
+      box-shadow: 0 8px 32px rgba(255,255,255,0.18);
+      border: 1px solid rgba(255,255,255,0.3);
+      max-width: 600px;
+      width: 100%;
+      padding: 3rem 2rem;
+    }
+    h2 {
+      color: #db2777;
+      text-align: center;
+      font-weight: 800;
+      margin-bottom: 2rem;
+      font-size: 2.5rem;
+      text-shadow: 0 0 6px rgba(219,39,119,0.7);
+    }
+    input[type="text"], .textarea-desc, .textarea-recommendation {
+      width: 100%;
+      padding: 1rem;
+      margin-bottom: 1.5rem;
+      border-radius: 1rem;
+      border: 2px solid #f9a8d4;
+      font-size: 1.125rem;
+      outline-offset: 2px;
+      transition: border-color 0.3s ease;
+      resize: vertical;
+    }
+    input[type="text"]:focus, .textarea-desc:focus, .textarea-recommendation:focus {
+      border-color: #db2777;
+      box-shadow: 0 0 10px rgba(219,39,119,0.7);
+    }
+    .btn-add {
+      width: 100%;
+      padding: 1rem;
+      background-color: #db2777;
+      color: white;
+      font-weight: 800;
+      font-size: 1.5rem;
+      border-radius: 1.5rem;
+      box-shadow: 0 8px 24px rgba(219,39,119,0.5);
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+    .btn-add:hover {
+      background-color: #be185d;
+      transform: translateY(-3px);
+    }
+  </style>
+</head>
+<body>
+
+  <form class="glass-card" method="POST">
+    <h2 class="mb-4">{{ 'Edit' if item else 'Tambah' }} Pengetahuan Makeup</h2>
+    <input name="skin_tone" type="text" placeholder="Skin Tone (Light, Medium, Dark...)" value="{{ item.skin_tone if item else '' }}" required />
+    <input name="undertone" type="text" placeholder="Undertone (Warm, Cool, Neutral)" value="{{ item.undertone if item else '' }}" required />
+    <textarea name="recommendation" class="textarea-recommendation" rows="7" placeholder="Masukkan rekomendasi produk (id), pisahkan dengan koma..." required>{{ item.recommendation if item else '' }}</textarea>
+    <textarea name="description" class="textarea-desc" rows="7" placeholder="Masukkan deskripsi pengetahuan..."></textarea>
+    <button type="submit" class="btn-add">Simpan</button>
+  </form>
+
+</body>
+</html>

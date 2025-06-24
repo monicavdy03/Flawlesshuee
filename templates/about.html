@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <title>FlawlessHue - About</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #fbc7c7 0%, #f9a8d4 100%);
+      min-height: 100vh;
+      color: #4a4a4a;
+    }
+
+    /* Glassmorphism Card */
+    .glass-card {
+      background: rgba(255, 255, 255, 0.25);
+      backdrop-filter: blur(12px);
+      border-radius: 2rem;
+      box-shadow: 0 8px 32px 0 rgba(255, 255, 255, 0.18);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      max-width: 700px;
+      margin: 3rem auto;
+      padding: 3rem 2rem;
+      text-align: center;
+    }
+
+    h1, h2, h3 {
+      color: #db2777;
+      text-shadow: 0 0 8px rgba(219, 39, 119, 0.7);
+    }
+
+    p {
+      line-height: 1.7;
+      font-size: 1.15rem;
+      color: #555555;
+      margin-top: 1rem;
+    }
+
+    a {
+      color: #db2777;
+      text-decoration: underline;
+    }
+    a:hover {
+      color: #be185d;
+    }
+
+    /* Animations */
+    @keyframes bounce {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+
+    .fade-in {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    }
+
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Hover effects */
+    .card-hover:hover {
+      transform: scale(1.05);
+      box-shadow: 0px 8px 16px rgba(219, 39, 119, 0.5);
+    }
+  </style>
+</head>
+<body class="flex flex-col min-h-screen bg-gradient-to-r from-pink-300 via-pink-400 to-pink-500">
+
+  <!-- Navbar -->
+  <nav class="bg-white bg-opacity-40 backdrop-blur-md shadow-lg py-6 px-10 flex justify-between items-center sticky top-0 z-50">
+    <h1 class="text-4xl font-extrabold text-pink-600 flex items-center gap-4">
+      <span class="text-7xl animate-bounce">💄</span> FlawlessHue
+    </h1>
+    <div class="flex gap-8 text-lg font-semibold text-pink-700">
+      <a href="/" class="hover:underline hover:text-pink-900 transition">Beranda</a>
+      <a href="/admin/login" class="hover:underline hover:text-pink-900 transition">Admin</a>
+    </div>
+  </nav>
+
+  <!-- Main content -->
+  <main class="flex-grow max-w-7xl mx-auto px-6 md:px-12 py-20 grid grid-cols-1 md:grid-cols-2 gap-12 mt-12">
+
+    <!-- About Content -->
+    <section class="glass-card p-12 card-hover fade-in">
+      <h1 class="text-5xl font-extrabold text-pink-700 mb-8 drop-shadow-lg">Tentang FlawlessHue</h1>
+      <p class="text-lg text-gray-700 leading-relaxed mb-6">
+        FlawlessHue adalah sistem pakar berbasis web yang membantu kamu menemukan warna makeup yang paling sesuai dengan skin tone dan undertone kulitmu.
+      </p>
+      <p class="text-lg text-gray-700 leading-relaxed mb-6">
+        Dengan teknologi analisis warna yang canggih, kamu hanya perlu meng-upload foto tanganmu dan sistem akan mendeteksi skin tone dan undertone kulitmu secara otomatis.
+      </p>
+      <p class="text-lg text-gray-700 leading-relaxed mb-6">
+        Sistem ini juga memberikan rekomendasi produk makeup yang paling sesuai dengan warna kulitmu, serta menyediakan pengetahuan terkait makeup untuk membantu kamu memilih produk yang tepat.
+      </p>
+      <p class="text-lg text-gray-700 leading-relaxed mb-6">
+        Nikmati pengalaman berbelanja makeup yang lebih mudah dan menyenangkan bersama FlawlessHue!
+      </p>
+    </section>
+
+    <!-- Additional Feature or Contact -->
+    <section class="glass-card p-12 card-hover fade-in">
+      <h2 class="text-4xl font-extrabold text-pink-700 mb-8 drop-shadow-lg">Bagaimana Cara Kerja FlawlessHue?</h2>
+      <p class="text-lg text-gray-700 leading-relaxed mb-6">
+        Dengan hanya meng-upload foto tanganmu, sistem akan mendeteksi skin tone dan undertone kamu untuk memberikan rekomendasi makeup yang tepat. Hanya dengan sekali klik, kamu bisa melihat berbagai produk yang cocok dengan warna kulitmu!
+      </p>
+      <p class="text-lg text-gray-700 leading-relaxed mb-6">
+        Jangan khawatir, semua proses dilakukan secara otomatis dan data foto yang di-upload tidak akan disimpan di sistem kami.
+      </p>
+      <p class="text-lg text-gray-700 leading-relaxed mb-6">
+        Dengan sistem ini, kamu akan lebih mudah dalam memilih produk makeup yang sesuai, tanpa perlu bingung memilih warna.
+      </p>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-pink-700 text-white py-8 text-center font-light select-none mt-20">
+    © 2025 FlawlessHue - Dibuat dengan 💖 oleh Monika Dian Vidya Putri
+  </footer>
+
+  <script>
+    // Fade-in animation
+    document.addEventListener('DOMContentLoaded', () => {
+      const fadeIns = document.querySelectorAll('.fade-in');
+      fadeIns.forEach(el => {
+        el.style.opacity = 0;
+        el.style.transform = 'translateY(30px)';
+        setTimeout(() => {
+          el.style.transition = 'opacity 0.8s ease-out, transform 0.8s ease-out';
+          el.style.opacity = 1;
+          el.style.transform = 'translateY(0)';
+        }, 200);
+      });
+    });
+  </script>
+
+</body>
+</html>
