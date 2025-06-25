@@ -30,14 +30,24 @@
         margin-bottom: 2rem;
         text-align: center;
       }
+      .table-container {
+        width: 100%;
+        max-height: 750px;
+        overflow-y: auto;
+        position: relative;
+        border-radius: 1rem;
+
+      }
       table {
         width: 100%;
         border-collapse: collapse;
         font-size: 1rem;
         background: rgba(255, 255, 255, 0.9);
-        border-radius: 1rem;
-        overflow: hidden;
         box-shadow: 0 8px 32px rgba(219, 39, 119, 0.2);
+      }
+      thead {
+        position: sticky;
+        top: 0;
       }
       thead tr {
         background-color: #f9a8d4;
@@ -107,48 +117,53 @@
 
       <a href="/admin/knowledge/add" class="btn-add">+ Tambah Pengetahuan</a>
 
-      <table>
-        <thead>
-          <tr>
-            <th class="text-center">Skin Tone</th>
-            <th class="text-center">Undertone</th>
-            <th class="text-center">Deskripsi</th>
-            <th class="text-center">Rekomendasi</th>
-            <th class="text-center">Aksi</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for item in knowledge %}
-          <tr>
-            <td>{{ item.skin_tone }}</td>
-            <td>{{ item.undertone }}</td>
-            <td style="white-space: pre-wrap">
-              {% if item.description %}{{ item.description }}{% else %} - {% endif %}
-            </td>
-            <td>
-              {{ item.recommendation[:80] }}{% if item.recommendation|length >
-              80 %}...{% endif %}
-            </td>
-            <td>
-              <a href="/admin/knowledge/edit/{{ item.id }}" class="action-link"
-                >Edit</a
-              >
-              <a
-                href="/admin/knowledge/delete/{{ item.id }}"
-                class="action-link"
-                >Hapus</a
-              >
-            </td>
-          </tr>
-          {% else %}
-          <tr>
-            <td colspan="5" style="text-align: center; color: #9f1239">
-              Belum ada data pengetahuan
-            </td>
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th class="text-center">Skin Tone</th>
+              <th class="text-center">Undertone</th>
+              <th class="text-center">Deskripsi</th>
+              <th class="text-center">Rekomendasi</th>
+              <th class="text-center">Aksi</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for item in knowledge %}
+            <tr>
+              <td>{{ item.skin_tone }}</td>
+              <td>{{ item.undertone }}</td>
+              <td>
+                {% if item.description %}{{ item.description }}{% else %} - {%
+                endif %}
+              </td>
+              <td>
+                {{ item.recommendation[:80] }}{% if item.recommendation|length >
+                80 %}...{% endif %}
+              </td>
+              <td>
+                <a
+                  href="/admin/knowledge/edit/{{ item.id }}"
+                  class="action-link"
+                  >Edit</a
+                >
+                <a
+                  href="/admin/knowledge/delete/{{ item.id }}"
+                  class="action-link"
+                  >Hapus</a
+                >
+              </td>
+            </tr>
+            {% else %}
+            <tr>
+              <td colspan="5" style="text-align: center; color: #9f1239">
+                Belum ada data pengetahuan
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
 
       <a href="/admin" class="back-link">← Kembali ke Dashboard</a>
     </div>

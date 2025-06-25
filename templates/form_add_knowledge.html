@@ -73,7 +73,7 @@
     <input name="skin_tone" type="text" placeholder="Skin Tone (Light, Medium, Dark...)" value="{{ item.skin_tone if item else '' }}" required />
     <input name="undertone" type="text" placeholder="Undertone (Warm, Cool, Neutral)" value="{{ item.undertone if item else '' }}" required />
     <textarea name="recommendation" class="textarea-recommendation" rows="7" placeholder="Masukkan rekomendasi produk (id), pisahkan dengan koma..." required>{{ item.recommendation if item else '' }}</textarea>
-    <textarea name="description" class="textarea-desc" rows="7" placeholder="Masukkan deskripsi pengetahuan..."></textarea>
+    <textarea name="description" class="textarea-desc" rows="7" placeholder="Masukkan deskripsi pengetahuan...">{{ item.description if item else '' }}</textarea>
     <button type="submit" class="btn-add">Simpan</button>
   </form>
 

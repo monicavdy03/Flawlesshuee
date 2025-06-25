@@ -195,7 +195,8 @@ def download():
 
         pdf.set_font("Arial", size=13)
         for item in user_result.get("recommendations")[:10]:
-            pdf.cell(0, 10, f"- {item.name} ({item.category})", ln=True)
+            pdf.multi_cell(0, 10, f"- {item.name} ({item.category})") # akan lanjut ke baris baru jika rekomendasi terlalu panjang
+
 
         pdf.output("static/hasil.pdf")
 

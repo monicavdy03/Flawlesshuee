@@ -30,20 +30,35 @@
         margin-bottom: 2rem;
         text-align: center;
       }
+      .table-container {
+        width: 100%;
+        max-height: 750px;
+        overflow-y: auto;
+        position: relative;
+        border-radius: 1rem;
+
+      }
       table {
         width: 100%;
         border-collapse: collapse;
         font-size: 1rem;
         background: rgba(255, 255, 255, 0.9);
-        border-radius: 1rem;
-        overflow: hidden;
         box-shadow: 0 8px 32px rgba(219, 39, 119, 0.2);
+      }
+      thead {
+        position: sticky; 
+        top: 0; 
       }
       thead tr {
         background-color: #f9a8d4;
         color: #6b21a8;
         text-transform: uppercase;
         letter-spacing: 0.1em;
+      }
+      tbody--container {
+        max-height: 250px;
+        overflow-y: scroll;
+        background-color: black;
       }
       thead th,
       tbody td {
@@ -82,7 +97,8 @@
         background-color: #be185d;
         transform: translateY(-3px);
       }
-      .logout-link, .knowledge-link {
+      .logout-link,
+      .knowledge-link {
         display: block;
         text-align: center;
         margin-top: 3rem;
@@ -93,7 +109,8 @@
         font-size: 1rem;
         transition: color 0.3s ease;
       }
-      .logout-link:hover, .knowledge-link:hover {
+      .logout-link:hover,
+      .knowledge-link:hover {
         color: #be185d;
       }
     </style>
@@ -104,45 +121,48 @@
 
       <a href="/admin/add" class="btn-add">+ Tambah Produk</a>
 
-      <table>
-        <thead>
-          <tr>
-            <th class="text-center">Kode Produk</th>
-            <th class="text-center">Nama</th>
-            <th class="text-center">Kategori</th>
-            <th class="text-center">Skin Tone</th>
-            <!-- Kolom untuk Skin Tone -->
-            <th class="text-center">Undertone</th>
-            <!-- Kolom untuk Undertone -->
-            <th class="text-center">Aksi</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for item in makeup %}
-          <tr>
-            <td>{{ item.products_code }}</td>
-            <td>{{ item.name }}</td>
-            <td>{{ item.category }}</td>
-            <td>{{ item.skin_tone }}</td>
-            <!-- Menampilkan Skin Tone -->
-            <td>{{ item.undertone }}</td>
-            <!-- Menampilkan Undertone -->
-            <td>
-              <a href="/admin/edit/{{ item.id }}" class="action-link">Edit</a>
-              <a href="/admin/delete/{{ item.id }}" class="action-link"
-                >Hapus</a
-              >
-            </td>
-          </tr>
-          {% else %}
-          <tr>
-            <td colspan="6" style="text-align: center; color: #9f1239">
-              Belum ada produk makeup
-            </td>
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th class="text-center">Kode Produk</th>
+              <th class="text-center">Nama</th>
+              <th class="text-center">Kategori</th>
+              <th class="text-center">Skin Tone</th>
+              <!-- Kolom untuk Skin Tone -->
+              <th class="text-center">Undertone</th>
+              <!-- Kolom untuk Undertone -->
+              <th class="text-center">Aksi</th>
+            </tr>
+          </thead>
+          <div></div>
+          <tbody>
+            {% for item in makeup %}
+            <tr>
+              <td>{{ item.products_code }}</td>
+              <td>{{ item.name }}</td>
+              <td>{{ item.category }}</td>
+              <td>{{ item.skin_tone }}</td>
+              <!-- Menampilkan Skin Tone -->
+              <td>{{ item.undertone }}</td>
+              <!-- Menampilkan Undertone -->
+              <td>
+                <a href="/admin/edit/{{ item.id }}" class="action-link">Edit</a>
+                <a href="/admin/delete/{{ item.id }}" class="action-link"
+                  >Hapus</a
+                >
+              </td>
+            </tr>
+            {% else %}
+            <tr>
+              <td colspan="6" style="text-align: center; color: #9f1239">
+                Belum ada produk makeup
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
 
       <div class="flex gap-3 flex-wrap justify-center items-center">
         <a href="/admin/logout" class="logout-link">Keluar</a>
