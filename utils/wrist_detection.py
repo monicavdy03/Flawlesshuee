@@ -2,7 +2,7 @@ import cv2
 from ultralytics import YOLO
 
 
-model = YOLO("../model/wrist_best_model.pt")
+model = YOLO("model/wrist_best_model.pt")
 
 if (model):
     print("Model is ready")

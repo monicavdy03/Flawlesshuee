@@ -94,16 +94,26 @@ def get_rules_from_db():
 
     return rules
 
-# Forward chaining algorithm to find recommendations
 def forward_chaining(skin_tone, undertone, rules):
     recommendations = []
+    matched_description = ""
+
     for rule in rules:
         if rule["conditions"]["skin_tone"] == skin_tone and rule["conditions"]["undertone"] == undertone:
+            # Ambil deskripsi dari tabel Knowledge
+            matched_knowledge = Knowledge.query.filter_by(
+                skin_tone=skin_tone, undertone=undertone
+            ).first()
+            if matched_knowledge:
+                matched_description = matched_knowledge.description
+
             for recommendation in rule["recommendations"]:
                 recommendations.append(recommendation)
+            break
 
-    makeup_items = Makeup.query.filter(Makeup.products_code.in_(recommendations)).all()    # Ambil produk yang relevan
-    return makeup_items
+    makeup_items = Makeup.query.filter(Makeup.products_code.in_(recommendations)).all()
+    return makeup_items, matched_description
+
 
 user_result = {
     "skin_tone": "",
@@ -145,13 +155,15 @@ def index():
 
             # Ambil pengetahuan dari Knowledge
             rules = get_rules_from_db()
-            recommendations = forward_chaining(skin_tone, undertone, rules)
+            recommendations, rule_description = forward_chaining(skin_tone, undertone, rules)
 
             user_result = {
                 "skin_tone": skin_tone,
                 "undertone": undertone,
-                "recommendations": recommendations  # Hanya rekomendasi berdasarkan pengetahuan
+                "recommendations": recommendations,
+                "description": rule_description  # <- ini akan dikirim ke template
             }
+
 
             return redirect('/result')
 
@@ -344,5 +356,5 @@ def about():
 if __name__ == '__main__':
     with app.app_context():
         # db.drop_all()
-        db.create_all() 
-    app.run(debug=True)
+        db.create_all()
+    app.run(host='0.0.0.0', port=5000, debug=True)
