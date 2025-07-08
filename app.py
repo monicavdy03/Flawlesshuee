@@ -100,15 +100,18 @@ def forward_chaining(skin_tone, undertone, rules):
 
     for rule in rules:
         if rule["conditions"]["skin_tone"] == skin_tone and rule["conditions"]["undertone"] == undertone:
-            # Ambil deskripsi dari tabel Knowledge
-            matched_knowledge = Knowledge.query.filter_by(
+            # Ambil SEMUA Knowledge yang cocok
+            matched_knowledge_list = Knowledge.query.filter_by(
                 skin_tone=skin_tone, undertone=undertone
-            ).first()
-            if matched_knowledge:
-                matched_description = matched_knowledge.description
+            ).all()
 
-            for recommendation in rule["recommendations"]:
-                recommendations.append(recommendation)
+            for knowledge in matched_knowledge_list:
+                if knowledge.description:
+                    matched_description += f"- {knowledge.description}\n"
+                for recommendation in knowledge.recommendation.split(','):
+                    rec = recommendation.strip()
+                    if rec and rec not in recommendations:
+                        recommendations.append(rec)
             break
 
     makeup_items = Makeup.query.filter(Makeup.products_code.in_(recommendations)).all()

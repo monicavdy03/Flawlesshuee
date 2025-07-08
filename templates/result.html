@@ -24,7 +24,7 @@
       h2 {
         color: #db2777;
         font-weight: 900;
-        font-size: 2.75rem;
+        font-size: 2.5rem;
         margin-bottom: 1rem;
         text-align: center;
       }
@@ -33,7 +33,7 @@
         color: #6b21a8;
         margin-bottom: 2rem;
         text-align: center;
-        font-size: 1.25rem;
+        font-size: 1.2rem;
       }
       .no-data {
         text-align: center;
@@ -43,68 +43,67 @@
       }
       .cards {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-        gap: 2rem;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1.5rem;
         margin-bottom: 3rem;
       }
       .card {
         background: #fce7f3;
-        border-radius: 1.5rem;
-        padding: 1.5rem;
+        border-radius: 1.25rem;
+        padding: 1rem;
         text-align: center;
         box-shadow: 0 4px 18px rgba(219, 39, 119, 0.15);
         transition: transform 0.3s ease, box-shadow 0.3s ease;
-        cursor: default;
       }
       .card:hover {
-        transform: translateY(-6px);
-        box-shadow: 0 12px 36px rgba(219, 39, 119, 0.3);
+        transform: translateY(-5px);
+        box-shadow: 0 12px 24px rgba(219, 39, 119, 0.2);
       }
-      .card > .img-container {
-        min-width: 180px;
+      .img-container {
         width: 100%;
-        min-height: 180px;
-        height: 100vh;
-        max-height: 380px;
+        aspect-ratio: 1 / 1;
+        border-radius: 1rem;
+        overflow: hidden;
         display: flex;
-        justify-content: center;
         align-items: center;
-        margin: auto;
+        justify-content: center;
         margin-bottom: 1rem;
       }
       .img-container img {
-        border-radius: 1rem;
-        max-width: 380px;
-        max-height: 380px;
+        width: 100%;
+        height: 100%;
         object-fit: cover;
-        box-shadow: 0 6px 20px rgba(219, 39, 119, 0.2);
+        transition: transform 0.3s ease;
+      }
+      .card:hover .img-container img {
+        transform: scale(1.05);
       }
       .card h3 {
+        font-size: 1.15rem;
         font-weight: 700;
-        font-size: 1.25rem;
-        color: #6b21a8;
-        margin-bottom: 0.5rem;
+        color: #7c3aed;
+        margin-bottom: 0.25rem;
       }
       .card p {
-        font-size: 1rem;
-        color: #4a4a4a;
-        margin-bottom: 0.25rem;
+        font-size: 0.95rem;
+        color: #444;
+        margin: 0.25rem 0;
       }
       .download-btn,
       .back-btn {
         display: block;
-        width: fit-content;
         margin: 0 auto 1rem auto;
-        padding: 0.75rem 2rem;
-        background-color: #db2777;
-        color: white;
+        padding: 0.7rem 2rem;
+        font-size: 1.1rem;
         font-weight: 700;
-        font-size: 1.25rem;
         border-radius: 1.5rem;
-        box-shadow: 0 8px 24px rgba(219, 39, 119, 0.5);
-        text-decoration: none;
+        color: white;
         text-align: center;
-        transition: background-color 0.3s ease, transform 0.3s ease;
+        text-decoration: none;
+        background-color: #db2777;
+        box-shadow: 0 6px 20px rgba(219, 39, 119, 0.4);
+        transition: background-color 0.3s, transform 0.3s;
+        width: fit-content;
       }
       .download-btn:hover,
       .back-btn:hover {
@@ -138,18 +137,6 @@
         align-items: center;
         gap: 2rem;
       }
-      .btn-back {
-        background-color: #e11d48;
-        color: white;
-        font-weight: bold;
-        transition: all 0.3s ease;
-        padding: 10px 20px;
-      }
-      .btn-back:hover {
-        background-color: #be185d;
-        box-shadow: 0 8px 24px rgba(190, 24, 93, 0.6);
-        transform: translateY(-4px);
-      }
     </style>
   </head>
 
@@ -170,10 +157,12 @@
             >
               Contoh gambar yang baik
             </summary>
-              <div class="flex gap-3 flex-wrap mt-4 justify-center item-center p-6">
-                <img src="static/images/gambar2.jpg" class="w-48"/>
-                <img src="static/images/gambar5.jpg" class="w-48"/>
-              </div>
+            <div
+              class="flex gap-3 flex-wrap mt-4 justify-center item-center p-6"
+            >
+              <img src="static/images/gambar2.jpg" class="w-48" />
+              <img src="static/images/gambar5.jpg" class="w-48" />
+            </div>
           </details>
         </div>
         <a class="back-btn" href="/">Kembali</a>
@@ -181,11 +170,14 @@
       {% else %}
 
       <h2>Hasil Rekomendasi untuk Skin Tone: {{ result.skin_tone }}</h2>
-
       {% if result.undertone %}
       <p class="undertone">Undertone yang cocok: {{ result.undertone }}</p>
       {% else %}
       <p class="no-data">Tidak ada data pengetahuan untuk skin tone ini.</p>
+      {% endif %} {% if result.undertone %}
+      <div style="text-align: center; margin-bottom: 30px">
+        {{result.description}}
+      </div>
       {% endif %} {% if result.recommendations %}
       <div class="cards">
         {% for recommendation in result.recommendations %}
@@ -199,7 +191,12 @@
           </div>
           <h3>{{ recommendation.category }}</h3>
           <p>{{ recommendation.name }}</p>
-          <p><em>Untuk tone: {{ recommendation.skin_tone + "/" + recommendation.undertone }}</em></p>
+          <p>
+            <em
+              >Untuk tone: {{ recommendation.skin_tone + "/" +
+              recommendation.undertone }}</em
+            >
+          </p>
         </div>
         {% endfor %}
       </div>
